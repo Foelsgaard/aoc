@@ -8,7 +8,7 @@ endif
 
 input = args{1};
 
-## Not a pretty or general solution
+## Both parts
 
 fid = fopen(input);
 pos = [];
@@ -25,14 +25,19 @@ n = 0;
 do
   pos += vel;
   n += 1;
-until max(pos(:, 2)) - min(pos(:, 2)) < 100
+until max(pos(:, 2)) - min(pos(:, 2)) <= 9
 
-for i = 1:9
-  pos += vel;
+printf("The elves sent the following message in %d seconds\n", n);
+
+xs = min(pos(:, 1)):max(pos(:, 1));
+ys = min(pos(:, 2)):max(pos(:, 2));
+for y = ys
+  for x = xs
+    if any(all(pos == [x y], 2), 1)
+      printf("#");
+    else
+      printf(".");
+    endif
+  endfor
+  printf("\n");
 endfor
-n += 9;
-
-hf = figure();
-plot(pos(:, 1), -pos(:, 2), '.');
-axis([110, 210, -200, -100]);
-print(hf, "message.png", "-dpng");

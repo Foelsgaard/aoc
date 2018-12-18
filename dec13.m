@@ -78,9 +78,6 @@ turns = zeros(size(start_cart_ix));
 pos = [xs; ys];
 n = 1;
 do
-  ## if mod(n, 100) == 0
-  ##   printf("%d\n", n);
-  ## endif
   for i = 1:length(cart_ix)
     dpos(:, i) = reflections(:, :, cart_ix(i)) * dpos(:, i);
     if track(cart_ix(i)) == '+'
@@ -108,18 +105,6 @@ do
 
   cart_ix = sub2ind(size(track), pos(2, :), pos(1, :));
   crashes |= any((cart_ix == cart_ix') & ~eye(length(cart_ix)));
-
-  ## if any(crashes)
-  ##   for crash_ix = new_cart_ix(crashes)
-  ##     [y x] = ind2sub(size(track), crash_ix);
-  ##     printf("Crash at (%d, %d)\n", [x - 1; y - 1]);
-  ##   endfor
-
-  ##   for ix = new_cart_ix(~crashes)
-  ##     [y x] = ind2sub(size(track), ix);
-  ##     printf("Remaining carts at (%d, %d)\n", x - 1, y - 1);
-  ##   endfor
-  ## endif
 
   if ~first_crash && any(crashes)
     [sorted, order] = sort(cart_ix);
